@@ -13,6 +13,20 @@ const User = sequelize.define(tables.USERS_TABLE, {
   lastName: {
     type: Sequelize.STRING,
   },
+  login: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  email: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  password: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
 }, {
   timestamps: true,
   paranoid: true,
