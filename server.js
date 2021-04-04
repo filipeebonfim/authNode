@@ -1,7 +1,7 @@
 const http = require('http');
 
 const port = process.env.PORT || 3000;
-const logger = require('./config/loggers/winston');
+const logger = require('./config/loggers/winston')('Server');
 
 require('dotenv').config();
 require('./config/postgres/syncTables')(logger);

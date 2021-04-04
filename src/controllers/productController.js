@@ -1,6 +1,9 @@
 const express = require('express');
 
 const router = express.Router();
+const NotFound = require('../exceptions/NotFound');
+
+const logger = require('../../config/loggers/winston')('ProductController');
 
 /**
  * @swagger
@@ -68,7 +71,8 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-
+  logger.log('info', req.user);
+  throw new NotFound('oi');
 });
 
 module.exports = router;
