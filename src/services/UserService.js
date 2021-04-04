@@ -2,7 +2,6 @@ const bcrypt = require('bcrypt');
 const UserRepository = require('../repository/UserRepository');
 
 const BadRequest = require('../exceptions/BadRequest');
-const NotFound = require('../exceptions/NotFound');
 
 const resolveCreateUser = async (user) => {
   const userExist = await UserRepository.userExist({
@@ -21,7 +20,6 @@ const resolveCreateUser = async (user) => {
   try {
     return await UserRepository.createUser(newUser);
   } catch (err) {
-    console.log(err.stack);
     throw new BadRequest(err);
   }
 };
@@ -31,7 +29,6 @@ const login = async (user) => {
 
   let isEqual = false;
 
-  console.log(loggedUser.role.type);
   if (loggedUser) {
     isEqual = bcrypt.compareSync(user.password, loggedUser.password);
   }
