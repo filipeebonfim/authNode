@@ -3,30 +3,34 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
-const app = express();
-const swaggerUI = require('swagger-ui-express');
-const specs = require('./config/swaggerConfig');
-
 const NotFound = require('./src/exceptions/NotFound');
 const ExceptionHandler = require('./src/middleware/ExceptionHandler');
 
-const productsRoute = require('./src/controllers/productController');
-const publicRoute = require('./src/controllers/public/publicController');
+const publicRoutes = require('./src/routes/PublicRoutes');
+const userRoutes = require('./src/routes/UserRoutes');
 
-/* Swagger instance */
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
+class App {
+  constructor() {
+    this.server = express();
+    this.middlewares();
+    this.routes();
+  }
 
-app.use(bodyParser.json());
-app.use(cors());
-app.use(morgan('dev'));
-app.use('/public', publicRoute);
+  middlewares() {
+    this.server.use(bodyParser.json());
+    this.server.use(cors());
+    this.server.use(morgan('dev'));
+  }
 
-app.use('/products', productsRoute);
+  routes() {
+    this.server.use(publicRoutes);
+    this.server.use(userRoutes);
+    this.server.use((req, res, next) => {
+      throw new NotFound(`Resource ${req.url} not found`);
+    });
 
-app.use((req, res, next) => {
-  throw new NotFound(`Resource ${req.url} not found`);
-});
+    this.server.use(ExceptionHandler);
+  }
+}
 
-app.use(ExceptionHandler);
-
-module.exports = app;
+module.exports = new App().server;
