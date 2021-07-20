@@ -3,22 +3,17 @@ const tables = require('../config/postgres/tables');
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.bulkInsert(tables.ROLES_TABLE, [
     {
-      type: 'Consumer',
+      type: 'Perfil 1',
       createdAt: new Date(),
       updatedAt: new Date(),
     },
     {
-      type: 'Retailer',
+      type: 'Perfil 2',
       createdAt: new Date(),
       updatedAt: new Date(),
     },
     {
-      type: 'Driver',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      type: 'Administrator',
+      type: 'Perfil 3',
       createdAt: new Date(),
       updatedAt: new Date(),
     },

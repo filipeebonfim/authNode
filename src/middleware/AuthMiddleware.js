@@ -1,20 +1,63 @@
 const jwt = require('jsonwebtoken');
 const Unauthorized = require('../exceptions/Unauthorized');
+const sessionValidator = require('../utills/sessionValidator');
+const userValidator = require('../utills/userValidator');
 
-const requireAuth = (req, res, next) => {
+const logger = require('../../config/loggers/winston')('AuthMiddleware');
+
+/**
+ * This middleware will check if the request is logged but wont block it
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+const userMiddleware = (req, res, next) => {
+  userValidator(req, false, null);
+  next();
+};
+
+const publicAuth = (req, res, next) => {
   try {
-    const token = req.headers.authorization;
+    let sessionId = req.cookies['session-id'];
+    let sessionToken = req.cookies['session-token'];
 
-    if (!token) throw new Error('Authorization header not found');
+    if (!sessionToken || !sessionId || !sessionValidator(sessionToken, sessionId)) {
+      const oneDayToSeconds = 24 * 60 * 60 * 1000;
 
-    const decoded = jwt.verify(token, process.env.APP_AUTH_SECRET);
+      const options = {
+        maxAge: oneDayToSeconds,
+        httpOnly: true, // The cookie only accessible by the web server
+      };
 
-    req.user = decoded;
+      sessionId = req.sessionID;
+      sessionToken = jwt.sign(sessionId, process.env.APP_AUTH_SECRET);
 
+      res.cookie('session-id', sessionId, options);
+      res.cookie('session-token', sessionToken, options);
+    }
+
+    req.headers['session-id'] = sessionId;
+    req.headers['session-token'] = sessionToken;
     return next();
   } catch (e) {
+    logger.log('error', e.stack);
     throw new Unauthorized(e.message);
   }
 };
 
-module.exports = { requireAuth };
+const userAuth = (req, res, next) => {
+  userValidator(req, true, 'Customer');
+  next();
+};
+
+const managerAuth = (req, res, next) => {
+  userValidator(req, true, 'Manager');
+  next();
+};
+
+module.exports = {
+  publicAuth,
+  userMiddleware,
+  userAuth,
+  managerAuth,
+};

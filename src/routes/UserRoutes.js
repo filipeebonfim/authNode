@@ -1,11 +1,9 @@
 const { Router } = require('express');
 
-const { requireAuth } = require('../middleware/AuthMiddleware');
-const productsController = require('../controllers/productController');
+const { userAuth } = require('../middleware/AuthMiddleware');
 
 const userRoutes = new Router();
 
-userRoutes.use(requireAuth);
-userRoutes.use('/products', productsController);
+userRoutes.use('/user', userAuth);
 
 module.exports = userRoutes;
