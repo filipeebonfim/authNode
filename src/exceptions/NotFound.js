@@ -1,6 +1,6 @@
-const GeneralError = require('./GeneralError');
+const GenericError = require('./GenericError');
 
-class NotFound extends GeneralError {
+class NotFound extends GenericError {
   getCode() {
     if (this instanceof NotFound) return 404;
 

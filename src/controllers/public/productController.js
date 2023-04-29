@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const NotFound = require('../exceptions/NotFound');
+const NotFound = require('../../exceptions/NotFound');
 
 const logger = require('../../config/loggers/winston')('ProductController');
 
@@ -68,11 +68,6 @@ router.get('/', (req, res) => {
   res.status(200).send({
     mensagem: 'OK',
   });
-});
-
-router.post('/', (req, res) => {
-  logger.log('info', req.user);
-  throw new NotFound('oi');
 });
 
 module.exports = router;

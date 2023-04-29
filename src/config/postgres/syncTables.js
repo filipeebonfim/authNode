@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-dynamic-require */
 
-const modelDir = '../../src/models/';
+const modelDir = '../../models/';
 const path = require('path');
 
 const User = require(path.join(modelDir, 'User'));

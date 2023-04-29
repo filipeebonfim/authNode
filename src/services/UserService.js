@@ -5,7 +5,7 @@ const BadRequest = require('../exceptions/BadRequest');
 
 const resolveCreateUser = async (user) => {
   const userExist = await UserRepository.userExist({
-    login: user.login,
+    login: user.login.toString(),
     email: user.email,
 
   });
@@ -15,7 +15,7 @@ const resolveCreateUser = async (user) => {
   const newUser = user;
   newUser.roleId = 1;
   newUser.statusId = 1;
-  newUser.password = bcrypt.hashSync(user.password, 10);
+  newUser.password = bcrypt.hashSync(user.password.toString(), 10);
 
   try {
     return await UserRepository.createUser(newUser);

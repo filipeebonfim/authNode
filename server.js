@@ -1,10 +1,10 @@
 const http = require('http');
 
 const port = process.env.PORT || 3000;
-const logger = require('./config/loggers/winston')('Server');
+const logger = require('./src/config/loggers/winston')('Server');
 
 require('dotenv').config();
-require('./config/postgres/syncTables')(logger);
+require('./src/config/postgres/syncTables')(logger);
 const app = require('./app');
 
 const server = http.createServer(app);
@@ -23,11 +23,9 @@ const onError = (error) => {
     case 'EACCES':
       logger.log('error', `${bind} requires elevated privileges`);
       process.exit(1);
-      break;
     case 'EADDRINUSE':
       logger.log('error', `${bind} is already in use`);
       process.exit(1);
-      break;
     default:
       throw error;
   }

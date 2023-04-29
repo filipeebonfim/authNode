@@ -1,19 +1,20 @@
-const tables = require('../config/postgres/tables');
+const tables = require('../src/config/postgres/tables');
+const RoleEnum = require('../src/models/RoleEnum');
 
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.bulkInsert(tables.ROLES_TABLE, [
     {
-      type: 'Perfil 1',
+      type: RoleEnum.Customer,
       createdAt: new Date(),
       updatedAt: new Date(),
     },
     {
-      type: 'Perfil 2',
+      type: RoleEnum.Manager,
       createdAt: new Date(),
       updatedAt: new Date(),
     },
     {
-      type: 'Perfil 3',
+      type: RoleEnum.User,
       createdAt: new Date(),
       updatedAt: new Date(),
     },

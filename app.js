@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser')
 const morgan = require('morgan');
 const { publicAuth } = require('./src/middleware/AuthMiddleware');
 
@@ -21,6 +22,7 @@ class App {
 
   middlewares() {
     this.server.use(cookieParser());
+    this.server.use(bodyParser.json())
     this.server.use(session({
       secret: '34SDgsdgspxxxxxxxdfsG',
       resave: false,

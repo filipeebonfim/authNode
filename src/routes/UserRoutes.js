@@ -2,8 +2,10 @@ const { Router } = require('express');
 
 const { userAuth } = require('../middleware/AuthMiddleware');
 
-const userRoutes = new Router();
+const CustomerController = require('../controllers/customerController')
 
-userRoutes.use('/user', userAuth);
+const customerRoutes = new Router();
 
-module.exports = userRoutes;
+customerRoutes.use('/customer', userAuth, CustomerController);
+
+module.exports = customerRoutes;

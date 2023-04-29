@@ -1,7 +1,7 @@
-const GeneralError = require('../exceptions/GeneralError');
+const GenericError = require('../exceptions/GenericError');
 
 const ExceptionHandler = (err, req, res, next) => {
-  if (err instanceof GeneralError) {
+  if (err instanceof GenericError) {
     return res.status(err.getCode()).json({
       status: 'Error',
       message: err.message,

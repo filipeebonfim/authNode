@@ -13,7 +13,7 @@ module.exports = {
       updatedAt: new Date(),
     },
     {
-      type: 'Accept',
+      type: 'Accepted',
       createdAt: new Date(),
       updatedAt: new Date(),
     },

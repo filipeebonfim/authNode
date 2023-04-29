@@ -4,9 +4,9 @@ const options = {
   swaggerDefinition: {
     openapi: '3.0.0',
     infooo: {
-      title: 'Fruta Doce API',
+      title: 'Auth Service API',
       version: '1.0.0',
-      description: 'The kernel of Fruta Doce API',
+      description: 'Just a service to manage the authentication and practice the routes controll',
     },
     servers: [
       {

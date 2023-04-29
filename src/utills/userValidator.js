@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const Unauthorized = require('../exceptions/Unauthorized');
 
-const logger = require('../../config/loggers/winston')('UserValidator');
+const logger = require('../config/loggers/winston')('UserValidator');
 
 module.exports = (req, onlyUsers, role) => {
   try {
@@ -11,8 +11,9 @@ module.exports = (req, onlyUsers, role) => {
 
     const decoded = jwt.verify(token, process.env.APP_AUTH_SECRET);
 
-    if (role && (role !== decoded.role && decoded.role !== 'Administrator')) {
-      throw new Unauthorized('User doesn\'t has access to this resource');
+    logger.info(JSON.stringify(token))
+    if (role && (role !== decoded.role && decoded.role !== 'Manager')) {
+      throw new Unauthorized('User doesn\'t has access to this resource. You are not a ' + role);
     }
 
     req.user = decoded;

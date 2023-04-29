@@ -1,0 +1,14 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    container_name: my_postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: lana
+      POSTGRES_PASSWORD: lana
+      POSTGRES_DB: auth-service
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"

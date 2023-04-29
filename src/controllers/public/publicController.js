@@ -2,15 +2,16 @@ const express = require('express');
 
 const router = express.Router();
 
-const token = require('../../models/responses/TokenResponse');
+const token = require('../responses/TokenResponse');
 const userSrv = require('../../services/UserService');
 
-const ApiResponse = require('../../models/responses/ApiResponse');
+const ApiResponse = require('../responses/ApiResponse');
+
+const logger = require('../../config/loggers/winston')('PublicController');
+
 
 router.post('/register', (req, res) => {
-  const newUser = req.body;
-
-  userSrv.resolveCreateUser(newUser).then((createdUser) => {
+  userSrv.resolveCreateUser(req.body).then((createdUser) => {
     if (createdUser) {
       const createdToken = token(createdUser);
       ApiResponse.successResponse(res, createdToken, { message: 'User Created' });
@@ -18,10 +19,13 @@ router.post('/register', (req, res) => {
     }
 
     ApiResponse.internalErrorResponse(res, { error: 'Error creating User' });
-  }).catch((err) => ApiResponse.badRequestResponse(res, { error: err.message }));
+  }).catch((err) => { 
+    logger.error(err); 
+    ApiResponse.badRequestResponse(res, { error: err.message });
+  });
 });
 
-router.post('/sign', (req, res) => {
+router.post('/login', (req, res) => {
   userSrv.login(req.body).then((loggedUser) => {
     const createdToken = token(loggedUser);
     ApiResponse.successResponse(res, createdToken);

@@ -1,9 +1,9 @@
 const { Router } = require('express');
 const swaggerUI = require('swagger-ui-express');
-const specs = require('../../config/swaggerConfig');
+const specs = require('../config/swaggerConfig');
 
 const publicController = require('../controllers/public/publicController');
-const productsController = require('../controllers/productController');
+const productsController = require('../controllers/public/productController');
 
 const publicRoutes = new Router();
 

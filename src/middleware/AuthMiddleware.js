@@ -2,11 +2,11 @@ const jwt = require('jsonwebtoken');
 const Unauthorized = require('../exceptions/Unauthorized');
 const sessionValidator = require('../utills/sessionValidator');
 const userValidator = require('../utills/userValidator');
-
-const logger = require('../../config/loggers/winston')('AuthMiddleware');
+const RoleEnum = require('../models/RoleEnum');
+const logger = require('../config/loggers/winston')('AuthMiddleware');
 
 /**
- * This middleware will check if the request is logged but wont block it
+ * This middleware will check if the request is from an authenticated user but wont block it
  * @param {*} req
  * @param {*} res
  * @param {*} next
@@ -26,7 +26,7 @@ const publicAuth = (req, res, next) => {
 
       const options = {
         maxAge: oneDayToSeconds,
-        httpOnly: true, // The cookie only accessible by the web server
+        httpOnly: true,
       };
 
       sessionId = req.sessionID;
@@ -46,12 +46,14 @@ const publicAuth = (req, res, next) => {
 };
 
 const userAuth = (req, res, next) => {
-  userValidator(req, true, 'Customer');
+  logger.info('Customer verifier')
+  userValidator(req, true, RoleEnum.Customer);
   next();
 };
 
 const managerAuth = (req, res, next) => {
-  userValidator(req, true, 'Manager');
+  logger.info('Manager verifier')
+  userValidator(req, true, RoleEnum.Manager);
   next();
 };
 

@@ -1,5 +1,5 @@
-const models = require('../../config/postgres/startSequelize');
-const tables = require('../../config/postgres/tables');
+const models = require('../config/postgres/startSequelize');
+const tables = require('../config/postgres/tables');
 
 const {
   sequelize,

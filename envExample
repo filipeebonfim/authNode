@@ -2,7 +2,7 @@ NODE_ENV=development
 
 APP_DB_HOST=localhost
 APP_DB_PORT=5432
-APP_DB_NAME=frutaDoce
+APP_DB_NAME=auth
 APP_DB_USER=postgres
 APP_DB_PASSWORD=postgres
 

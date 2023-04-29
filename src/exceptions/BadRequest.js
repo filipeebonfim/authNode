@@ -1,6 +1,6 @@
-const GeneralError = require('./GeneralError');
+const GenericError = require('./GenericError');
 
-class BadRequest extends GeneralError {
+class BadRequest extends GenericError {
   getCode() {
     if (this instanceof BadRequest) return 400;
 
